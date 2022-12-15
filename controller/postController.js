@@ -1,4 +1,5 @@
 const Post = require("../schemas/Post");
+const Comment = require("../schemas/Comment");
 const mongoose = require("mongoose");
 
 const getPost = async (req, res) => {
@@ -84,6 +85,12 @@ const deletePost = async (req, res) => {
   }
   if (post.password !== password) {
     return res.status(400).json({ msg: "비밀번호가 일치하지 않습니다." });
+  }
+
+  if (post.comments.length) {
+    post.comments.forEach(
+      async (comment) => await Comment.findByIdAndDelete(comment)
+    );
   }
 
   await Post.findByIdAndDelete(_postId);
