@@ -33,7 +33,6 @@ const postPost = async (req, res) => {
 const getPostOne = async (req, res) => {
   const { _postId } = req.params;
   try {
-    const exist = await Post.exists({ _id: _postId });
     const post = await Post.findById(_postId);
     const { user, title, content, createdAt } = post;
     const data = { postId: _postId, user, title, content, createdAt };
